@@ -13,13 +13,17 @@
     />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav
+      class="navbar navbar-expand-lg"
+      :class="{'navbar-light bg-light': !useDarkNav, 'navbar-dark bg-dark': useDarkNav}"
+    >
       <a class="navbar-brand" href="#">Navbar</a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li v-for="(page, index) in pages" class="nav-item" :key="index">
             <a
               class="nav-link"
+              :class="{active: activePage == index}"
               :href="page.link.url"
               :title="`This link foes to the ${page.link.text} page`"
               @click.prevent="activePage = index"
@@ -27,6 +31,14 @@
             >
           </li>
         </ul>
+        <form class="d-flex">
+          <button
+            class="btn btn-primary"
+            @click.prevent="useDarkNav = !useDarkNav"
+          >
+            Toggle
+          </button>
+        </form>
       </div>
     </nav>
     <div id="content" class="container">
@@ -39,6 +51,7 @@
         data() {
           return {
             activePage: 0,
+            useDarkNav: false,
             pages: [
               {
                 link: { text: 'Home', url: 'home.html' },
